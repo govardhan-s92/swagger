@@ -1,0 +1,593 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "iHub",
+        "description": "Move your integrations forward with the iHub APP",
+        "version": "1.0.0"
+    },
+    "host": "192.168.0.47:7001",
+    "schemes": [
+        "https"
+    ],
+    "securityDefinitions": {
+        "basicAuth": {
+            "type": "basic",
+            "description": "HTTP Basic Authentication. Works over `HTTP` and `HTTPS`"
+        }
+    },
+    "basePath": "/ihub/data/resources/service",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/login": {
+            "post": {
+                "security": [{
+                    "basicAuth": []
+                }],
+                "summary": "Login authentication / authorisation service",
+                "description": "Acts as an entry point for the app and helps in authentication and authorisation of a end user in accessing the app. It also sets session cookie for further rest services.\n",
+                "parameters": [{
+                    "name": "days",
+                    "in": "query",
+                    "description": "Number of days.",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "tags": [
+                    "Login"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Authorised user",
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/integrationStatus": {
+            "get": {
+                "summary": "integrationStatus sdf gsdf fdg",
+                "description": "sdfgsdfgsdfg sdfgsfd g\n",
+                "parameters": [{
+                    "name": "days",
+                    "in": "query",
+                    "description": "Number of days.",
+                    "required": true,
+                    "type": "integer",
+                    "format": "int32"
+                }],
+                "tags": [
+                    "integrationStatus"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An object of integration status by product",
+                        "schema": {
+                                "$ref": "#/definitions/intgRunStatus"
+                            
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/integrationLineGraph": {
+            "get": {
+                "summary": "Time Estimates",
+                "description": "The Time Estimates endpoint returns ETAs for all products offered at a given location, with the responses expressed as integers in seconds. We recommend that this endpoint be called every minute to provide the most accurate, up-to-date ETAs.",
+                "tags": [
+                    "integrationLineGraph"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An array of products",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/intgRunStatus"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/customers": {
+            "get": {
+                "summary": "User Profile",
+                "description": "The User Profile endpoint returns information about the Uber user that has authorized with the application.",
+                "tags": [
+                    "customers"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Profile information for a user",
+                        "schema": {
+                            "$ref": "#/definitions/intgRunStatus"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/customer": {
+            "get": {
+                "summary": "User Activity",
+                "description": "The User Activity endpoint returns data about a user's lifetime activity with Uber. The response will include pickup locations and times, dropoff locations and times, the distance of past requests, and information about which products were requested.<br><br>The history array in the response will have a maximum length based on the limit parameter. The response value count may exceed limit, therefore subsequent API requests may be necessary.",
+                "parameters": [{
+                    "name": "custid",
+                    "in": "query",
+                    "type": "integer",
+                    "format": "int32",
+                    "description": "Customer Id number"
+                }],
+                "tags": [
+                    "customer"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "History information for the given user",
+                        "schema": {
+                            "$ref": "#/definitions/intgRunStatus"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/editCustomer": {
+            "post": {
+                "consumes": ["application/x-www-form-urlencoded"],
+                "tags": [
+                    "editCustomer"
+                ],
+                "summary": "Create/Edit a  customer account",
+                "parameters": [{
+                    "name": "editCustomer",
+                    "in": "formData",
+                    "description": "Parameters of json",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "201": {
+                        "description": "The user account has been created",
+                        "schema": {
+                            "$ref": "#/definitions/intgRunStatus"
+                        },
+                        "examples": {
+                            "custIntgDetails": {
+                                "customerId": 505,
+                                "customerName": "ACI UNIVERSAL PAYMENTS (ACI)",
+                                "customerShortCode": "ACIW",
+                                "internalProjectName": "ACI Worldwide Fusion Implementation",
+                                "internalTaskName": "ACI_WORLDWIDE_FUSION",
+                                "contractStartStr": "2016-06-02T00:00:00.000",
+                                "contractEndStr": "2018-01-28T00:00:00.000",
+                                "primaryName": "James Horn",
+                                "primaryEmail": "james.horn@aciworldwide.com",
+                                "primaryPhone": "888-111-987",
+                                "secondaryName": "Peter Parker",
+                                "secondaryEmail": "peter.parker@aciworldwide.com",
+                                "secondaryPhone": "888-777-123",
+                                "createdBy": "admin",
+                                "createDateStr": "02-Jun-2016 12:00 AM",
+                                "modifiedBy": null,
+                                "modifiedDateStr": "03-Jun-2016 12:00 AM",
+                                "activeFlag": "Y",
+                                "logoUrl": "http://www.wesco.com/media/logo.jpg",
+                                "industry": null,
+                                "custProperties": {
+                                    "customerId": null,
+                                    "schemaName": "ACIW",
+                                    "jndiName": "jdbc/ACIW",
+                                    "fileDirName": null,
+                                    "createdBy": null,
+                                    "creationDate": null,
+                                    "lastModifiedBy": null,
+                                    "lastModifiedDate": null
+                                },
+                                "status": "Synced",
+                                "integrations": [{
+                                    "integrationId": 533,
+                                    "customerId": 505,
+                                    "integrationName": "ACI_TALEO_TO_HCM_FUSION",
+                                    "description": "ACI Taleo To Fusion Integration for New Hires",
+                                    "integrationLevel": 3,
+                                    "activeFlag": "Y",
+                                    "createdBy": "admin",
+                                    "createDateStr": "02-Jun-2016 12:00 AM",
+                                    "modifiedBy": null,
+                                    "modifiedDateStr": "02-Jun-2016 12:00 AM",
+                                    "integrationShortCode": "ACI_TALEO_FUSION",
+                                    "status": "Synced",
+                                    "runId": null,
+                                    "lastRunDate": null,
+                                    "schedule": null,
+                                    "processes": [{
+                                        "processesId": 511,
+                                        "customerId": null,
+                                        "integrationId": 533,
+                                        "processesName": "ACI_TALEO_FUSION_NEWHIRE",
+                                        "processesDescription": "ACI Taleo to Fusion New Hire Process",
+                                        "processShortCode": "ACITALEOFUSIONNW",
+                                        "activeFlag": "Y",
+                                        "createdBy": null,
+                                        "createDateStr": "02-Jun-2016 12:00 AM",
+                                        "modifiedBy": null,
+                                        "modifiedDateStr": "02-Jun-2016 12:00 AM",
+                                        "processOrder": 10,
+                                        "processType": "INBOUND",
+                                        "status": "Synced",
+                                        "processesSteps": [{
+                                            "processesStepsId": 550,
+                                            "processesId": 511,
+                                            "stepType": "WEBSERVICE_MFT",
+                                            "stepOrder": 10,
+                                            "stepName": "TALEO_NWDATA_TO_STG_TABLE",
+                                            "stepMode": "PULL",
+                                            "activeFlag": "Y",
+                                            "soaEndPoint": null,
+                                            "createDateStr": "02-Jun-2016 12:00 AM",
+                                            "createdBy": "admin",
+                                            "modifiedDateStr": "26-Aug-2016 9:02 AM",
+                                            "modifiedBy": null,
+                                            "requirePrevResponse": "N",
+                                            "custIntgPrcsStepAccess": [{
+                                                "accessId": 552,
+                                                "attributeType": "TALEO",
+                                                "attributeName": "TALEO_CREDENTIAL",
+                                                "attributeLabel": "Taleo Webservice OWSM",
+                                                "attributeValue": "ACITaleo.credential",
+                                                "attributeOrder": 1,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 550,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "accessId": 555,
+                                                "attributeType": "TALEO",
+                                                "attributeName": "TALEO_END_POINT",
+                                                "attributeLabel": "Taleo Find WebService",
+                                                "attributeValue": "https://ptrdemo169.taleo.net/enterprise/soap?ServiceName=FindService",
+                                                "attributeOrder": 2,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 550,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }],
+                                            "custIntgPrcsStepParameter": [{
+                                                "parameterId": 521,
+                                                "parameterType": "TALEO",
+                                                "parameterName": "TALEO_XQUERY",
+                                                "parameterLabel": "Taleo X Query",
+                                                "parameterValue": "<itk:findPartialEntities xmlns:itk=\"http://www.taleo.com/ws/integration/toolkit/2005/07\" xmlns:ns1=\"http://www.taleo.com/ws/tee800/2009/01/find\">\n<itk:mappingVersion>http://www.taleo.com/ws/art750/2006/12</itk:mappingVersion>\n<itk:query>\n<itk:query alias=\"Find New Candidates\" projectedClass=\"Candidate\">\n<itk:projections>\n<itk:projection><itk:field path=\"DiversityAnswers,PossibleAnswer,Question,Name\"/> </itk:projection>\n<itk:projection><itk:field path=\"Application,Candidate,Number\"/> </itk:projection>\n<itk:projection><itk:field path=\"EmployeeNumber\"/> </itk:projection>\n<itk:projection><itk:field path=\"Prefix\"/> </itk:projection>\n<itk:projection><itk:field path=\"FirstName\"/> </itk:projection>\n<itk:projection><itk:field path=\"MiddleInitial\"/> </itk:projection>\n<itk:projection><itk:field path=\"LastName\"/> </itk:projection> \n<itk:projection><itk:field path=\"Suffix\"/> </itk:projection> \n<itk:projection><itk:field path=\"EmailAddress\"/> </itk:projection>\n<itk:projection><itk:field path=\"Address\"/> </itk:projection>\n<itk:projection><itk:field path=\"Address2\"/> </itk:projection>\n<itk:projection><itk:field path=\"City\"/> </itk:projection>\n<itk:projection><itk:field path=\"ZipCode\"/> </itk:projection>\n<itk:projection><itk:field path=\"ResidenceLocation,StateLocation,Parent,Name\"/> </itk:projection>\n<itk:projection><itk:field path=\"ResidenceLocation,StateLocation,Name\"/> </itk:projection>\n<itk:projection><itk:field path=\"ResidenceLocation,CountryLocation,Name\"/> </itk:projection>\n<itk:projection><itk:field path=\"HomePhone\"/> </itk:projection> \n<itk:projection><itk:field path=\"MobilePhone\"/> </itk:projection>\n<itk:projection><itk:field path=\"SocialSecurityNumber\"/> </itk:projection>\n<itk:projection><itk:field path=\"Birthday\"/> </itk:projection>\n<itk:projection><itk:field path=\"DiversityAnswers,PossibleAnswer,Description\"/> </itk:projection>\n<itk:projection><itk:field path=\"DiversityAnswers,PossibleAnswer,Question,Name\"/> </itk:projection><!--CandidateNumber-->\n</itk:projections>\n<itk:sortings>\n<itk:sorting>\n<itk:field path=\"Application,Candidate,Number\"/>\n</itk:sorting>\n</itk:sortings>\n</itk:query>\n</itk:query>\n</itk:findPartialEntities>",
+                                                "parameterOrder": 3,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 550,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }],
+                                            "status": "Synced"
+                                        }, {
+                                            "processesStepsId": 552,
+                                            "processesId": 511,
+                                            "stepType": "CSVTOHDL",
+                                            "stepOrder": 20,
+                                            "stepName": "Generate HDL from CSV and send through MFT to local file",
+                                            "stepMode": "PUSH",
+                                            "activeFlag": "Y",
+                                            "soaEndPoint": null,
+                                            "createDateStr": "02-Jun-2016 12:00 AM",
+                                            "createdBy": "admin",
+                                            "modifiedDateStr": "02-Jun-2016 12:00 AM",
+                                            "modifiedBy": null,
+                                            "requirePrevResponse": "N",
+                                            "custIntgPrcsStepAccess": [],
+                                            "custIntgPrcsStepParameter": [],
+                                            "status": "Synced"
+                                        }, {
+                                            "processesStepsId": 553,
+                                            "processesId": 511,
+                                            "stepType": "FILETOUCM",
+                                            "stepOrder": 30,
+                                            "stepName": "Upload HDL File to UCM",
+                                            "stepMode": "PUSH",
+                                            "activeFlag": "Y",
+                                            "soaEndPoint": null,
+                                            "createDateStr": "02-Jun-2016 12:00 AM",
+                                            "createdBy": "admin",
+                                            "modifiedDateStr": "02-Jun-2016 12:00 AM",
+                                            "modifiedBy": null,
+                                            "requirePrevResponse": "N",
+                                            "custIntgPrcsStepAccess": [{
+                                                "accessId": 558,
+                                                "attributeType": "CRDENTIAL",
+                                                "attributeName": "UCM_CREDENTIAL",
+                                                "attributeLabel": "ACI UCM Credential",
+                                                "attributeValue": "ACIUCM.credential",
+                                                "attributeOrder": 10,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }],
+                                            "custIntgPrcsStepParameter": [{
+                                                "parameterId": 522,
+                                                "parameterType": "FILE",
+                                                "parameterName": "INPUT_FILE_DIR",
+                                                "parameterLabel": "Input File Directory to get ZIP file",
+                                                "parameterValue": "C:\\temp\\ACI_HDL_Content",
+                                                "parameterOrder": 1,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 523,
+                                                "parameterType": "FILE",
+                                                "parameterName": "INPUT_FILE_NAME",
+                                                "parameterLabel": "Input ZIP File Name",
+                                                "parameterValue": "Worker.dat.zip",
+                                                "parameterOrder": 2,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 524,
+                                                "parameterType": "UCM",
+                                                "parameterName": "UCM_DOC_TITLE",
+                                                "parameterLabel": "UCM Document Title",
+                                                "parameterValue": "Worker",
+                                                "parameterOrder": 3,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 525,
+                                                "parameterType": "UCM",
+                                                "parameterName": "UCM_DOC_ACCOUNT",
+                                                "parameterLabel": "UCM Document Account",
+                                                "parameterValue": "hcm$/dataloader$/import$",
+                                                "parameterOrder": 4,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 526,
+                                                "parameterType": "UCM",
+                                                "parameterName": "UCM_SECURITY_GROUP",
+                                                "parameterLabel": "UCM Security Group",
+                                                "parameterValue": "FAFusionImportExport",
+                                                "parameterOrder": 5,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 527,
+                                                "parameterType": "UCM",
+                                                "parameterName": "UCM_DOC_AUTHOR",
+                                                "parameterLabel": "UCM Document Author",
+                                                "parameterValue": "iHub",
+                                                "parameterOrder": 6,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 528,
+                                                "parameterType": "UCM",
+                                                "parameterName": "UCM_DOC_TYPE",
+                                                "parameterLabel": "UCM Document Type",
+                                                "parameterValue": "Document",
+                                                "parameterOrder": 7,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 553,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }],
+                                            "status": "Synced"
+                                        }, {
+                                            "processesStepsId": 554,
+                                            "processesId": 511,
+                                            "stepType": "WEBSERVICE",
+                                            "stepOrder": 40,
+                                            "stepName": "Run ImportAndLoad HDL Process",
+                                            "stepMode": "PUSH",
+                                            "activeFlag": "Y",
+                                            "soaEndPoint": null,
+                                            "createDateStr": "02-Jun-2016 12:00 AM",
+                                            "createdBy": "admin",
+                                            "modifiedDateStr": "02-Jun-2016 12:00 AM",
+                                            "modifiedBy": null,
+                                            "requirePrevResponse": "Y",
+                                            "custIntgPrcsStepAccess": [{
+                                                "accessId": 557,
+                                                "attributeType": "CREDENTIAL",
+                                                "attributeName": "HDL_CREDENTIAL",
+                                                "attributeLabel": "ACI HDL Credential",
+                                                "attributeValue": "ACIHDL.credential",
+                                                "attributeOrder": 3,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 554,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }],
+                                            "custIntgPrcsStepParameter": [{
+                                                "parameterId": 1,
+                                                "parameterType": "WEBSERVICE",
+                                                "parameterName": "HDL_END_POINT",
+                                                "parameterLabel": "HDL WebService End Point",
+                                                "parameterValue": "https://hcm-aufsn4x0fuf.oracleoutsourcing.com:443/hcmCommonDataLoader/HCMDataLoader",
+                                                "parameterOrder": 1,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "SYSTEM",
+                                                "updatedDateStr": null,
+                                                "updatedBy": null,
+                                                "stepId": 554,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }, {
+                                                "parameterId": 529,
+                                                "parameterType": "HDL Param",
+                                                "parameterName": "HDL param",
+                                                "parameterLabel": "HDL param",
+                                                "parameterValue": "HDL param",
+                                                "parameterOrder": 10,
+                                                "createdDateStr": "02-Jun-2016 12:00 AM",
+                                                "createdBy": "admin",
+                                                "updatedDateStr": "02-Jun-2016 12:00 AM",
+                                                "updatedBy": null,
+                                                "stepId": 554,
+                                                "activeFlag": "Y",
+                                                "status": "Synced"
+                                            }],
+                                            "status": "Synced"
+                                        }]
+                                    }]
+                                }]
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/logdata": {
+            "post": {
+                "consumes": ["application/x-www-form-urlencoded"],
+                "tags": [
+                    "logdata"
+                ],
+                "summary": "Create/Edit a  customer account",
+                "parameters": [{
+                    "name": "advSearchFormData",
+                    "in": "formData",
+                    "description": "Parameters of json",
+                    "required": true,
+                    "type": "string"
+                }],
+                "responses": {
+                    "201": {
+                        "description": "The user account has been created",
+                        "schema": {
+                            "$ref": "#/definitions/intgRunStatus"
+                        },
+                        "examples": { "searchQuery": { "ecId": null, "programName": null, "customerName": null, "integrationName": null, "processName": null, "stepName": null, "messageType": null, "message": null, "creationDate": null, "lastXMin": null, "runId": 232 } }
+                    },
+                    "401": {
+                        "description": "Unauthorised User"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Login": {
+            "type": "object",
+            "properties": {
+                "login": {
+                    "type": "string",
+                    "format": "string",
+                    "description": "It will be either \"SUCCESS\" or \"ERRROR\" to indicate valid user."
+                },
+                "isAdmin": {
+                    "type": "string",
+                    "description": "It will be either \"YES\" or \"NO\" to indicate Admin / view role."
+                }
+            }
+        },
+        "intgRunStatus": {
+            "type": "object",
+            "properties": {
+                "login": {
+                    "type": "string",
+                    "format": "string",
+                    "description": "It will be either \"SUCCESS\" or \"ERRROR\" to indicate valid user."
+                },
+                "isAdmin": {
+                    "type": "string",
+                    "description": "It will be either \"YES\" or \"NO\" to indicate Admin / view role."
+                }
+            }
+        }
+    }
+}
